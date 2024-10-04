@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--HTML START-->
+
+<head>
+    <!--HEAD START-->
+    <title>Shoily</title>
+    <!--::::: support meta :::::::-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--::::: ALL CSS CALLING :::::::-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/modal-video.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/stellarnav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/typography.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/inner.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+
+</head>
+<!--HEADE END-->
+
+<body><!--BODY START-->
+
+    <!--PLACEHOLDER AREA START-->
+    <div class="preloader">
+        <div class="lds-dual-ring"></div>
+    </div>
+    <!--PLACEHOLDER AREA END-->
+
+    <div class="site site-black"> <!--::::: SITE AREA START :::::::-->
+          <!--::::: BANNER AREA START :::::::-->
+        <div class="header-banner-area">
+            <div class="container">
+                <div class="row">
+                    <div class=" col-md-5 align-self-center">
+                        <div class="banner-comments">
+                            <div class="banner-icon">
+                                <i class="fal fa-comments-alt"></i>
+                            </div>
+                            <div class="banner-carousel owl-carousel">
+                                {% for content in side_content %}
+                                <div class="banner-single-carousel">
+                                    <p>{{ content.content  }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 text-right align-self-center">
+                        <div class="banner-social-wrap">
+                            <div class="banner-social">
+                                <ul>
+                                    {% for link in social_links %}
+                                    <li><a href="{{ link.url }}"><i class="{{ link.icon_class }}"></i></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="banner-contact">
+                                <a href="{{ url_for('contact') }}" class="contact-btn"><i class="fal fa-angle-double-right"></i> Contact Me</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--::::: BANNER AREA END :::::::-->
+
+        <!--::::: HEADER AREA START :::::::-->
+        <div class="header-area header-main" id="header">
+            <!--scroll to up btn-->
+            <a href="#" class="up-btn"><i class="fal fa-angle-up"></i></a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-lg-3 align-self-center">
+
+                        <a href="/" class="logo"><img src="{{ url_for('static', filename='uploads/images/'+logo.image_url) }}" alt=""></a>
+                    </div>
+
+                    <div class="col-6 text-center align-self-center">
+                        <div class="main-menu">
+                            <div class="stellarnav">
+                                <ul class="navbarmneuclass">
+                                    <li class="current"><a href="#">Home</a>
+                                    </li>
+                                    <li><a href="#about">About</a></li>
+                                    <li><a href="#service">Service</a></li>
+                                    <li><a href="#portfolio">Portfolio</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul>
+                                             <li><a href="#about">About</a></li>
+                                            <li><a href="portfolio.html">Portfolio</a></li>
+                                            <li><a href="single-portfolio.html">Portfolio Details</a></li>
+<!--                                            <li><a href="blog.html">Blog</a></li>-->
+<!--                                            <li><a href="single-blog.html">Single Blog</a></li>-->
+                                            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-lg-block col-lg-3 align-self-center text-right">
+                        <div class="search-area">
+                            <div class="search-box">
+                                <form action="#" method="get">
+                                    <input type="search" placeholder="Search">
+                                </form>
+                                <div class="search-btn">
+                                    <a href="#"><i class="fas fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="grid-menu" id="grid-side">
+                                <img src="{{ url_for('static', filename='assets/img/icon/hamburger.svg') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-widgest-wrap" id="slide-widgest">
+                <div class="side-widgest" id="side-content">
+                    <div class="side-close" id="close-btn">
+                    <i class="fal fa-times"></i>
+                </div>
+                    <div class="logo">
+                        <a href="#"><img src="{{ url_for('static', filename='assets/img/logo/logo.png') }}" alt=""></a>
+                    </div>
+                    <div class="side-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ratione reprehenderit, error qui enim sit ex provident iure, dolor, nulla eaque delectus, repudiandae commodi. Velit assumenda odit quisquam at, error suscipit unde, necessitatibus ipsum ratione excepturi ducimus labore, totam dolorem.</p>
+                    </div>
+                    <div class="side-social">
+                        <ul>
+                            {% for link in social_links %}
+                            <li><a href="{{ link.url }}"><i class="{{ link.icon_class }}"></i></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--::::: HEADER AREA END :::::::-->
+        
+        <!--:::::WELCOME ATRA START :::::::-->
+        <div class="welcome-area-wrap welcome__wrap1">
+        
+            <!--::::: WELCOME CAROUSEL START :::::::-->
+            <div class="welcome-carousel owl-carousel">
+                <div class="single-welcome-area home_1">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="wlc-title white">
+                                    <h1>Hi, I am</h1>
+                                    <h1 class="fadeInDown animated"><span>{{ about_me.name }}</span>
+                                    </h1>
+                                    <p class="fadeInDown animated">{{ about_me.designation }}</p>
+                                   
+                                    <a href="#" class="cbtn cbnt1 fadeInDown animated">Getting Started <i class="fal fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wlc-author-1">
+                        <img src="{{ about_me.image_url }}" alt="">
+                        <h1 class="wlc-filltext">gilroy</h1>
+                    </div>
+                </div>
+              
+            </div>
+            <!--::::: WELCOME CAROUSEL END:::::::-->
+        </div>
+        <!--:::::WELCOME AREA END :::::::-->
+
+        <!--:::::ABOUT AREA START :::::::-->
+        <div class="about-area about-area1 section-padding" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="about-shape">
+                              <img src="{{ about_content.image_url }}" alt="{{ about_me.name }}">
+<!--                            <div class="about-img-section about-img-section1 text-center">-->
+<!--                                <a id="play-video" class="video-play-button" href="#"><span></span></a>-->
+<!--                                <div id="video-overlay" class="video-overlay">-->
+<!--                                  <a class="video-overlay-close"></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 offset-lg-1 align-self-center">
+                        <div class="heading white">
+                            <strong class="filltext">About us</strong>
+                            <h2>{{ about_content.title }} <span>{{ about_content.title_lastword }}</span></h2>
+                            <p>{{ about_content.description }}</p>
+                        <a href="#" class="cbtn cbnt1 fadeInDown animated">download cv <i class="fal fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--:::::ABOUT AREA END :::::::-->
+
+        <!--:::::SKILL AREA START :::::::-->
+        <div class="skill-area section-padding" id="portfolio">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="heading white">
+                            <strong class="filltext">my carrer</strong>
+                            <small>MY EXPERIENCE</small>
+                            <h2>Experience and <span>skill</span></h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 align-self-center">
+                         <div class="info-content">
+                            <p>{{ career_info.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+               {% for experience in experiences %}
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="skill-box">
+                            <small>{{ experience.duration }} ({{ experience.job_title }})</small>
+                            <h5>{{ experience.company }}</h5>
+                            <p>{{ experience.description }}</p>
+                        </div>
+                    </div>
+                     {% endfor %}
+                </div>
+            </div>
+            <div class="space-100"></div>
+            <!-- Start Technical Skills Section -->
+            <div class="skill__circles">
+                <div class="container">
+                    <div class="row">
+                         {% for skill in skills %}
+                        <div class="colsm6 col-lg-3 text-center">
+                             <div class="circle{{ loop.index }} circle" id="circle{{ loop.index }}">
+                              <strong>{{ skill.skill_level }}</strong>
+                              <span>{{ skill.skill_name }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--:::::SKILL AREA END :::::::-->
+
+        <!--:::::SERVICE AREA START :::::::-->
+        <div class="service-area padding-bottom" id="service">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 align-self-center">
+                        <div class="heading white">
+                            <strong class="filltext">our services</strong>
+                            <small>WHAT WE DO</small>
+                            <h2>Services and<span> Solutions</span></h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 align-self-center">
+                         <div class="info-content">
+                            <p>{{ service_header.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+                      {% for service in services %}
+                    <div class="col-lg-4">
+                        <div class="single-service">
+                            <div class="service-icon">
+                                <img src="{{ url_for('static', filename='assets/img/icon/service1.svg') }}" alt="">
+                            </div>
+                            <div class="service-text">
+                                <h4>{{ service.title }}</h4>
+                                <p>{{ service.description }}</p>
+                            </div>
+                            <div class="circles-wrap">
+                                <div class="circles">
+                                    <span class="circle circle-1"></span>
+                                    <span class="circle circle-2"></span>
+                                    <span class="circle circle-3"></span>
+                                    <span class="circle circle-4"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        {% endfor %}
+                    <div class="col-lg-4">
+                        <div class="single-service active">
+                            <div class="service-icon">
+                                <img src="{{ url_for('static', filename='assets/img/icon/service2.svg') }}" alt="">
+                            </div>
+                            <div class="service-text">
+                                <h4>Unique Values</h4>
+                                <p>Need a project completed by an expert? Let’s go! Access a Human Resources Consultant to answer questions</p>
+                            </div>
+                            <div class="circles-wrap">
+                                <div class="circles">
+                                    <span class="circle circle-1"></span>
+                                    <span class="circle circle-2"></span>
+                                    <span class="circle circle-3"></span>
+                                    <span class="circle circle-4"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="col-lg-4">-->
+<!--                        <div class="single-service">-->
+<!--                            <div class="service-icon">-->
+<!--                                <img src="{{ url_for('static', filename='assets/img/icon/service3.svg') }}" alt="">-->
+<!--                            </div>-->
+<!--                            <div class="service-text">-->
+<!--                                <h4>Style Components</h4>-->
+<!--                                <p>Need a project completed by an expert? Let’s go! Access a Human Resources Consultant to answer questions</p>-->
+<!--                            </div>-->
+<!--                            <div class="circles-wrap">-->
+<!--                                <div class="circles">-->
+<!--                                    <span class="circle circle-1"></span>-->
+<!--                                    <span class="circle circle-2"></span>-->
+<!--                                    <span class="circle circle-3"></span>-->
+<!--                                    <span class="circle circle-4"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+        <!--:::::SERVICE AREA END :::::::-->
+
+        <!--:::::PROJECT AREA START :::::::-->
+        <div class="project-area section-padding" >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="heading white">
+                            <strong class="filltext">our projects</strong>
+                            <small>WORKING PROCESS</small>
+                            <h2>lastet working <span>project</span></h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 align-self-center">
+                         <div class="info-content">
+                            <p>{{ project_header.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+                    <ul id="da-thumbs" class="da-thumbs portfolio-carousel owl-carousel">
+                           {% for project in project_list %}
+                        <li>
+                            <a href="portfolio.html">
+                                <img src="{{ url_for('static', filename='assets/img/project/project1.png') }}" alt="">
+                                <div><span>{{ project.title }}</span></div>
+                            </a>
+                        </li>
+                          {% endfor %}
+<!--                        <li>-->
+<!--                            <a href="portfolio.html">-->
+<!--                                <img src="{{ url_for('static', filename='assets/img/project/project2.png') }}" alt="">-->
+<!--                                <div><span>Menu by Simon Jensen</span></div>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="portfolio.html">-->
+<!--                                <img src="{{ url_for('static', filename='assets/img/project/project3.png') }}" alt="">-->
+<!--                                <div><span>Menu by Simon Jensen</span></div>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="portfolio.html">-->
+<!--                                <img src="{{ url_for('static', filename='assets/img/project/project4.png') }}" alt="">-->
+<!--                                <div>-->
+<!--                                    <span>Menu by Simon Jensen</span>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="portfolio.html">-->
+<!--                                <img src="{{ url_for('static', filename='assets/img/project/project2.png') }}" alt="">-->
+<!--                                <div>-->
+<!--                                    <span>Menu by Simon Jensen</span>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--:::::PROJECT AREA END :::::::-->
+
+        <!--:::::TESTIMONIALS AREA START :::::::-->
+        <div class="testimonials-area testimonials-area1 section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="heading white">
+                            <strong class="filltext">Testimonials</strong>
+                            <small>Testimonials</small>
+                            <h2>Happy Clients TO <span>says</span></h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 align-self-center">
+                         <div class="info-content">
+                            <p>{{ testimonial.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="testimonials owl-carousel">
+                             {% for testimonial in testimonialentry %}
+                            <div class="testimonial">
+                                <div class="testimonial-img animated fadeInLeft">
+                                    <img src="{{ testimonial.image_url }}" alt="">
+                                </div>
+                                <div class="testimonial-text animated fadeInDown">
+                                    <img src="{{ url_for('static', filename='assets/img/icon/quote.png') }}" alt="">
+                                    <h4>{{ testimonial.testimonial_text }}</h4>
+                                    <p>{{ testimonial.author_name }}, {{ testimonial.author_location }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+<!--                             <div class="testimonial">-->
+<!--                                <div class="testimonial-img">-->
+<!--                                    <img src="{{ url_for('static', filename='assets/img/author/testimonial1.jpg') }}" alt="">-->
+<!--                                </div>-->
+<!--                                <div class="testimonial-text">-->
+<!--                                    <img src="{{ url_for('static', filename='assets/img/icon/quote.png') }}" alt="">-->
+<!--                                    <h4>Gilroy is a great and super-professional service provider, which brought new technologes, new methodology, and a fresh perspective to our project</h4>-->
+<!--                                    <p>Jack Metiyo Shina, NYC, USA</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--:::::TESTIMONIALS AREA END :::::::-->
+
+          <!--:::::COUNTER AREA START :::::::-->
+          <div class="fun-facts center section-padding" id="facts">
+            <div class="pattern"></div>
+            <div class="container">
+                <div class="row">
+                     {% for fact in counter_facts %}
+                    <!-- Fact No. 1 -->
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact Client">
+                            <i class="{{ fact.icon_class }}"></i>
+                            <h2 id="{{ fact.id }}" class="number-animate">{{ fact.value }}</h2>
+                            <span>{{ fact.description }}</span>
+                        </div>
+                    </div>
+                     {% endfor %}
+<!--                    &lt;!&ndash; Fact No. 2 &ndash;&gt;-->
+<!--                    <div class="col-md-3 col-sm-6">-->
+<!--                        <div class="fact Team">-->
+<!--                            <i class="far fa-clock"></i>-->
+<!--                            <h2 id="number_2">0</h2>-->
+<!--                            <span>Support Team</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; Fact No. 3 &ndash;&gt;-->
+<!--                    <div class="col-md-3 col-sm-6">-->
+<!--                        <div class="fact Count">-->
+<!--                            <i class="far fa-sliders-h"></i>-->
+<!--                            <h2 id="number_3">0</h2>-->
+<!--                            <span>Sales Count</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <!-- Fact No. 4 -->
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact Awward">
+                           <i class="far fa-trophy"></i>
+                            <h2 id="number_4">0</h2>
+                            <span>Awward</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--:::::COUNTER AREA END :::::::-->
+       
+
+
+
+        <!--:::::FOOTER AREA START :::::::-->
+        <div class="footer-area footer-area1 section-padding">
+             <!--:::::LOGO AREA START :::::::-->
+        <div class="logo-carousel">
+            <div class="container">
+                <div class="row">
+                    <div class="logos owl-carousel">
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                               <img src="{{ url_for('static', filename='assets/img/logo/1.svg') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                                <img src="{{ url_for('static', filename='assets/img/logo/01.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                                <img src="{{ url_for('static', filename='assets/img/logo/02.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                                <img src="{{ url_for('static', filename='assets/img/logo/03.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                                <img src="{{ url_for('static', filename='assets/img/logo/04.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="single-logo-table">
+                            <div class="single-logo-table-cell">
+                                <img src="{{ url_for('static', filename='assets/img/logo/02.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-100"></div>
+        <!--:::::LOGO AREA END :::::::-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 m-auto text-center">
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="#">about me</a></li>
+                                <li><a href="#">career</a></li>
+<!--                                <li><a href="#">blog</a></li>-->
+                                <li><a href="#">gallery</a></li>
+                                <li><a href="{{ url_for('contact') }}">contact me</a></li>
+                            </ul>
+                        </div>
+                        <div class="space-40"></div>
+                        <div class="copyright">
+                            <p>Copyright © {{ copyright.year }} by _<span> {{ copyright.author }} </span> _all right reserved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--:::::FOOTER AREA END :::::::-->
+                          
+    </div> <!--:::::sitea area end :::::::-->
+
+
+    <!--:::::jquery 3.2.1 js :::::::-->
+    <script src="{{ url_for('static', filename='assets/js/plugins/jQuery.2.1.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/jquery.nav.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/jquery-modal-video.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/stellarnav.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/owl.carousel.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/easypiechart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/animatenumber.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/circle-progress.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/bars.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/appear.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/jquery.hoverdir.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/plugins/isotop.v3.0.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+<script>
+var facts   = $("#facts");
+var number1 = $(".number-animate");
+
+facts.appear(function() {
+    number1.each(function() {
+        var targetNumber = $(this).text(); // Get the number from the id attribute
+        console.log(targetNumber);
+        $(this).animateNumber({
+            number: parseInt(targetNumber) // Convert the id value to an integer
+        }, 2200);
+    });
+}, {
+    accX: 0,
+    accY: -150
+});
+
+</script>
+</body>
+<!--body end-->
+
+</html>
+<!--html end-->
