@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+{% block body %}
+<head>
+    <!--HEAD START-->
+   <title>{% block title %}Portfolio Details{% endblock %}</title>
+</head>
+<body><!--BODY START-->
+
+    <!--PLACEHOLDER AREA START-->
+    <div class="preloader">
+        <div class="lds-dual-ring"></div>
+    </div>
+    <!--PLACEHOLDER AREA END-->
+
+    <div class="site site-white"> <!--::::: SITE AREA START :::::::-->
+
+
+        <!--:::::WELCOME ATRA START :::::::-->
+       <div class="welcome-area-wrap" style="background: url({{ url_for('static', filename='assets/img/bg/inner-header-bg.jpg')}});background-size: cover;background-position: center;" id="home">
+            <!--::::: WELCOME CAROUSEL START :::::::-->
+                <div class="welcome-area inner">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="inner-wlc">
+                                    <h2>Portfolio Details</h2>
+                                    <h3><a href="/">home</a>&nbsp;/&nbsp;Portfolio Details</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <div class="inner-filltext">
+                                    <h1>Portfolio</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--::::: WELCOME CAROUSEL END:::::::-->
+        </div>
+        <!--:::::WELCOME AREA END :::::::-->
+
+
+        <!--:::::PORTDOLIO AREA START :::::::-->
+        <div class="portfolio-area inner-bg-shpes section-padding">
+            <div class="container">
+                <div class="row portfolio-list2">
+                    <div class="col-md-8 align-self-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="portfolio-wrap">
+                                    <div class="single-portfolio-item single-portfolio-item2 portfolio-bg-7" style="background-image: url('{{ url_for('static', filename='uploads/images/'+portfolio_item.image2_url) }}');"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 align-self-center">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portfolio-wrap">
+                                     <div class="single-portfolio-item single-portfolio-ite small portfolio-bg-8"style="background-image: url('{{ url_for('static', filename='uploads/images/'+portfolio_item.image3_url) }}');"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="portfolio-wrap">
+                                     <div class="single-portfolio-item single-portfolio-ite small portfolio-bg-9"style="background-image: url('{{ url_for('static', filename='uploads/images/'+portfolio_item.image4_url) }}');"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="single-portfolio-description">
+                            <h3>Project Brief :</h3>
+                            <div class="space-30"></div>
+                            <p>{{ portfolio_item.project_brief }}<br><br></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 offset-lg-1">
+                        <div class="single-portfolio-description">
+                            <h3>Project Info:</h3>
+                            <div class="space-30"></div>
+                            <div class="ctable">
+                                <table class="table table-borderless">
+                                  <tbody>
+                                    <tr>
+                                      <th scope="row">Category</th>
+                                      <td>: {{ portfolio_item.type }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Date</th>
+                                      <td>: {{ portfolio_item.date  }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Client </th>
+                                      <td>: {{ portfolio_item.client  }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Web</th>
+                                     <td>: {{ portfolio_item.web_url }}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> 
+
+            </div>
+             <img src="{{ url_for('static', filename='assets/img/bg/service-bg.svg') }}" alt="" class="inner-shape1">
+        </div>
+        <!--:::::PORTDOLIO AREA END :::::::-->
+
+    </div> <!--:::::sitea area end :::::::-->
+
+
+
+
+
+</body><!--BODY END-->
+{% endblock %}

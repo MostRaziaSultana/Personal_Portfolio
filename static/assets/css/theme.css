@@ -1539,6 +1539,53 @@ a.readmore-btn {
     color: #fff;
 }
 
+.cta-form button.subscribe-btn {
+     width: 43%;
+    float: right;
+}
+
+button.subscribe-btn {
+    padding: 15px 60px 15px 30px;
+    background: #22cd6f;
+    border-radius: 5px;
+    color: #fff;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+    text-align: left;
+    border: 1px solid transparent;
+    font-size: 15px;
+    display: inline-block; /* Ensures button behaves like anchor */
+    cursor: pointer; /* Ensures it looks clickable */
+}
+
+button.subscribe-btn:hover,
+button.subscribe-btn:hover i {
+    border-color: #22cd6f;
+    background: transparent;
+    color: #22cd6f;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+button.subscribe-btn i {
+    background: #fff;
+    color: #22cd6f;
+    height: 35px;
+    width: 35px;
+    text-align: center !important;
+    position: absolute;
+    right: 13px;
+    line-height: 35px;
+    border-radius: 3px;
+    top: 50%;
+    margin-top: -17.5px;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
 .cta-form a.subscribe-btn {
      width: 43%;
     float: right;
@@ -1555,7 +1602,7 @@ a.subscribe-btn {
     border: 1px solid transparent;
     font-size: 15px;
 }
-a.subscribe-btn:hover, 
+a.subscribe-btn:hover,
 a.subscribe-btn:hover i{
     border-color: #22cd6f;
     background: transparent;
@@ -1813,7 +1860,7 @@ span.single-social-icon i {
     font-size     : 48px;
     line-height   : 62px;
     text-transform: uppercase;
-    color: #0b0d0e;
+    color: #fff;
     font-weight: 600;
     margin-bottom: 0;
 }
