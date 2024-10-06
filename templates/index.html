@@ -4,11 +4,11 @@
 
 <head>
     <!--HEAD START-->
-    <title>Shoily</title>
+   <title>{% block title %}Shoily{% endblock %}</title>
     <!--::::: support meta :::::::-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link rel="icon" href="{{ url_for('static', filename='uploads/images/'+logo.favicon_image) }}" type="image/x-icon">
     <!--::::: ALL CSS CALLING :::::::-->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/animate.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/bootstrap.min.css') }}">
@@ -79,7 +79,7 @@
                 <div class="row">
                     <div class="col-6 col-lg-3 align-self-center">
 
-                        <a href="/" class="logo"><img src="{{ url_for('static', filename='uploads/images/'+logo.image_url) }}" alt=""></a>
+                        <a href="/" class="logo"><img src="{{ url_for('static', filename='uploads/images/'+logo.image) }}" alt="Brand Logo"></a>
                     </div>
 
                     <div class="col-6 text-center align-self-center">
@@ -90,12 +90,12 @@
                                     </li>
                                     <li><a href="#about">About</a></li>
                                     <li><a href="#service">Service</a></li>
-                                    <li><a href="#portfolio">Portfolio</a></li>
+                                    <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
                                     <li><a href="#">Pages</a>
                                         <ul>
                                              <li><a href="#about">About</a></li>
-                                            <li><a href="portfolio.html">Portfolio</a></li>
-                                            <li><a href="single-portfolio.html">Portfolio Details</a></li>
+                                            <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
+
 <!--                                            <li><a href="blog.html">Blog</a></li>-->
 <!--                                            <li><a href="single-blog.html">Single Blog</a></li>-->
                                             <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
@@ -128,10 +128,10 @@
                     <i class="fal fa-times"></i>
                 </div>
                     <div class="logo">
-                        <a href="#"><img src="{{ url_for('static', filename='assets/img/logo/logo.png') }}" alt=""></a>
+                        <a href="/"><img src="{{ url_for('static', filename='uploads/images/'+logo.image) }}" alt="Brand Logo"></a>
                     </div>
                     <div class="side-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ratione reprehenderit, error qui enim sit ex provident iure, dolor, nulla eaque delectus, repudiandae commodi. Velit assumenda odit quisquam at, error suscipit unde, necessitatibus ipsum ratione excepturi ducimus labore, totam dolorem.</p>
+                        <p>{{ logo.description }}</p>
                     </div>
                     <div class="side-social">
                         <ul>
@@ -144,10 +144,10 @@
             </div>
         </div>
         <!--::::: HEADER AREA END :::::::-->
-        
+        {% block body %}
         <!--:::::WELCOME ATRA START :::::::-->
         <div class="welcome-area-wrap welcome__wrap1">
-        
+
             <!--::::: WELCOME CAROUSEL START :::::::-->
             <div class="welcome-carousel owl-carousel">
                 <div class="single-welcome-area home_1">
@@ -159,18 +159,18 @@
                                     <h1 class="fadeInDown animated"><span>{{ about_me.name }}</span>
                                     </h1>
                                     <p class="fadeInDown animated">{{ about_me.designation }}</p>
-                                   
+
                                     <a href="#" class="cbtn cbnt1 fadeInDown animated">Getting Started <i class="fal fa-angle-right"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="wlc-author-1">
-                        <img src="{{ about_me.image_url }}" alt="">
+                        <img src="{{ url_for('static', filename='uploads/images/'+about_me.image_url) }}" alt="My image">
                         <h1 class="wlc-filltext">gilroy</h1>
                     </div>
                 </div>
-              
+
             </div>
             <!--::::: WELCOME CAROUSEL END:::::::-->
         </div>
@@ -182,7 +182,7 @@
                 <div class="row">
                     <div class="col-lg-5 align-self-center">
                         <div class="about-shape">
-                              <img src="{{ about_content.image_url }}" alt="{{ about_me.name }}">
+                              <img src="{{ url_for('static', filename='uploads/images/'+about_content.image_url) }}" alt="{{ about_me.name }}">
 <!--                            <div class="about-img-section about-img-section1 text-center">-->
 <!--                                <a id="play-video" class="video-play-button" href="#"><span></span></a>-->
 <!--                                <div id="video-overlay" class="video-overlay">-->
@@ -196,7 +196,7 @@
                             <strong class="filltext">About us</strong>
                             <h2>{{ about_content.title }} <span>{{ about_content.title_lastword }}</span></h2>
                             <p>{{ about_content.description }}</p>
-                        <a href="#" class="cbtn cbnt1 fadeInDown animated">download cv <i class="fal fa-angle-right"></i></a>
+                        <a href="{{ url_for('download_cv', filename=about_content.cv_file) }}" class="cbtn cbnt1 fadeInDown animated">download cv <i class="fal fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                     <div class="row">
                          {% for skill in skills %}
                         <div class="colsm6 col-lg-3 text-center">
-                             <div class="circle{{ loop.index }} circle" id="circle{{ loop.index }}">
+                             <div class="circle1 circle" id="circle{{ skill.id }}">
                               <strong>{{ skill.skill_level }}</strong>
                               <span>{{ skill.skill_name }}</span>
                             </div>
@@ -276,7 +276,7 @@
                     <div class="col-lg-4">
                         <div class="single-service">
                             <div class="service-icon">
-                                <img src="{{ url_for('static', filename='assets/img/icon/service1.svg') }}" alt="">
+                                <img src="{{ url_for('static', filename='uploads/images/'+service.icon_url) }}" alt="Service icon">
                             </div>
                             <div class="service-text">
                                 <h4>{{ service.title }}</h4>
@@ -312,25 +312,6 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="col-lg-4">-->
-<!--                        <div class="single-service">-->
-<!--                            <div class="service-icon">-->
-<!--                                <img src="{{ url_for('static', filename='assets/img/icon/service3.svg') }}" alt="">-->
-<!--                            </div>-->
-<!--                            <div class="service-text">-->
-<!--                                <h4>Style Components</h4>-->
-<!--                                <p>Need a project completed by an expert? Let’s go! Access a Human Resources Consultant to answer questions</p>-->
-<!--                            </div>-->
-<!--                            <div class="circles-wrap">-->
-<!--                                <div class="circles">-->
-<!--                                    <span class="circle circle-1"></span>-->
-<!--                                    <span class="circle circle-2"></span>-->
-<!--                                    <span class="circle circle-3"></span>-->
-<!--                                    <span class="circle circle-4"></span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -358,95 +339,17 @@
                     <ul id="da-thumbs" class="da-thumbs portfolio-carousel owl-carousel">
                            {% for project in project_list %}
                         <li>
-                            <a href="portfolio.html">
-                                <img src="{{ url_for('static', filename='assets/img/project/project1.png') }}" alt="">
+                            <a href="{{ project.link }}">
+                                <img src="{{ url_for('static', filename='uploads/images/'+project.image_url) }}" alt="project image">
                                 <div><span>{{ project.title }}</span></div>
                             </a>
                         </li>
                           {% endfor %}
-<!--                        <li>-->
-<!--                            <a href="portfolio.html">-->
-<!--                                <img src="{{ url_for('static', filename='assets/img/project/project2.png') }}" alt="">-->
-<!--                                <div><span>Menu by Simon Jensen</span></div>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="portfolio.html">-->
-<!--                                <img src="{{ url_for('static', filename='assets/img/project/project3.png') }}" alt="">-->
-<!--                                <div><span>Menu by Simon Jensen</span></div>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="portfolio.html">-->
-<!--                                <img src="{{ url_for('static', filename='assets/img/project/project4.png') }}" alt="">-->
-<!--                                <div>-->
-<!--                                    <span>Menu by Simon Jensen</span>-->
-<!--                                </div>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="portfolio.html">-->
-<!--                                <img src="{{ url_for('static', filename='assets/img/project/project2.png') }}" alt="">-->
-<!--                                <div>-->
-<!--                                    <span>Menu by Simon Jensen</span>-->
-<!--                                </div>-->
-<!--                            </a>-->
-<!--                        </li>-->
                     </ul>
                 </div>
             </div>
         </div>
         <!--:::::PROJECT AREA END :::::::-->
-
-        <!--:::::TESTIMONIALS AREA START :::::::-->
-        <div class="testimonials-area testimonials-area1 section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 align-self-center">
-                        <div class="heading white">
-                            <strong class="filltext">Testimonials</strong>
-                            <small>Testimonials</small>
-                            <h2>Happy Clients TO <span>says</span></h2>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 align-self-center">
-                         <div class="info-content">
-                            <p>{{ testimonial.description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="space-60"></div>
-                <div class="row">
-                    <div class="col-lg-10 m-auto">
-                        <div class="testimonials owl-carousel">
-                             {% for testimonial in testimonialentry %}
-                            <div class="testimonial">
-                                <div class="testimonial-img animated fadeInLeft">
-                                    <img src="{{ testimonial.image_url }}" alt="">
-                                </div>
-                                <div class="testimonial-text animated fadeInDown">
-                                    <img src="{{ url_for('static', filename='assets/img/icon/quote.png') }}" alt="">
-                                    <h4>{{ testimonial.testimonial_text }}</h4>
-                                    <p>{{ testimonial.author_name }}, {{ testimonial.author_location }}</p>
-                                </div>
-                            </div>
-                            {% endfor %}
-<!--                             <div class="testimonial">-->
-<!--                                <div class="testimonial-img">-->
-<!--                                    <img src="{{ url_for('static', filename='assets/img/author/testimonial1.jpg') }}" alt="">-->
-<!--                                </div>-->
-<!--                                <div class="testimonial-text">-->
-<!--                                    <img src="{{ url_for('static', filename='assets/img/icon/quote.png') }}" alt="">-->
-<!--                                    <h4>Gilroy is a great and super-professional service provider, which brought new technologes, new methodology, and a fresh perspective to our project</h4>-->
-<!--                                    <p>Jack Metiyo Shina, NYC, USA</p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--:::::TESTIMONIALS AREA END :::::::-->
 
           <!--:::::COUNTER AREA START :::::::-->
           <div class="fun-facts center section-padding" id="facts">
@@ -463,35 +366,11 @@
                         </div>
                     </div>
                      {% endfor %}
-<!--                    &lt;!&ndash; Fact No. 2 &ndash;&gt;-->
-<!--                    <div class="col-md-3 col-sm-6">-->
-<!--                        <div class="fact Team">-->
-<!--                            <i class="far fa-clock"></i>-->
-<!--                            <h2 id="number_2">0</h2>-->
-<!--                            <span>Support Team</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; Fact No. 3 &ndash;&gt;-->
-<!--                    <div class="col-md-3 col-sm-6">-->
-<!--                        <div class="fact Count">-->
-<!--                            <i class="far fa-sliders-h"></i>-->
-<!--                            <h2 id="number_3">0</h2>-->
-<!--                            <span>Sales Count</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <!-- Fact No. 4 -->
-                    <div class="col-md-3 col-sm-6">
-                        <div class="fact Awward">
-                           <i class="far fa-trophy"></i>
-                            <h2 id="number_4">0</h2>
-                            <span>Awward</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <!--:::::COUNTER AREA END :::::::-->
-       
+       {% endblock %}
 
 
 
@@ -502,36 +381,13 @@
             <div class="container">
                 <div class="row">
                     <div class="logos owl-carousel">
+                        {% for i in brands %}
                         <div class="single-logo-table">
                             <div class="single-logo-table-cell">
-                               <img src="{{ url_for('static', filename='assets/img/logo/1.svg') }}" alt="">
+                               <img src="{{ url_for('static', filename='uploads/images/'+i.image_url) }}" alt="{{ i.name }}">
                             </div>
                         </div>
-                        <div class="single-logo-table">
-                            <div class="single-logo-table-cell">
-                                <img src="{{ url_for('static', filename='assets/img/logo/01.png') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="single-logo-table">
-                            <div class="single-logo-table-cell">
-                                <img src="{{ url_for('static', filename='assets/img/logo/02.png') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="single-logo-table">
-                            <div class="single-logo-table-cell">
-                                <img src="{{ url_for('static', filename='assets/img/logo/03.png') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="single-logo-table">
-                            <div class="single-logo-table-cell">
-                                <img src="{{ url_for('static', filename='assets/img/logo/04.png') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="single-logo-table">
-                            <div class="single-logo-table-cell">
-                                <img src="{{ url_for('static', filename='assets/img/logo/02.png') }}" alt="">
-                            </div>
-                        </div>
+                      {% endfor %}
                     </div>
                 </div>
             </div>
@@ -599,6 +455,23 @@ facts.appear(function() {
     accY: -150
 });
 
+
+</script>
+
+<script>
+$(document).ready(function() {
+  {% for skill in skills %}
+    $('#circle{{ skill.id }}').circleProgress({
+      value: {{ skill.skill_level | float / 100 }},  // Convert fact.value to a float before dividing
+      fill: {
+        color: '#08d665'  // Keeping the color consistent for the design
+      },
+      emptyFill: '#ffffff'  // Empty fill color
+    }).on('circle-animation-progress', function(event, progress) {
+      $(this).find('strong').html(Math.round({{ skill.skill_level | int }} * progress) + '<i>%</i>');  // Convert fact.value to integer for display
+    });
+  {% endfor %}
+});
 </script>
 </body>
 <!--body end-->
