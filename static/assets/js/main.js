@@ -231,51 +231,6 @@ jQuery(document).ready(function($) {
     }
     stickyNav();
 
-    $('#circle1').circleProgress({
-      value: 0.6,
-      fill: {
-        color: '#08d665'
-      },
-      emptyFill: '#ffffff',
-    }).on('circle-animation-progress', function(event, progress) {
-      $(this).find('strong').html(Math.round(60 * progress) + '<i>%</i>');
-  });
-
-
-    $('#circle2').circleProgress({
-      value: 0.7,
-      fill: {
-        color: '#08d665'
-      },
-      emptyFill: '#ffffff',
-    }).on('circle-animation-progress', function(event, progress) {
-      $(this).find('strong').html(Math.round(70 * progress) + '<i>%</i>');
-  });
-
-
-    $('#circle3').circleProgress({
-      value: 0.3,
-      fill: {
-        color: '#08d665'
-      },
-      emptyFill: '#ffffff',
-    }).on('circle-animation-progress', function(event, progress) {
-      $(this).find('strong').html(Math.round(30 * progress) + '<i>%</i>');
-  });
-
-
-    $('#circle4').circleProgress({
-      value: 0.9,
-      fill: {
-        color: '#08d665'
-      },
-      emptyFill: '#ffffff',
-    }).on('circle-animation-progress', function(event, progress) {
-      $(this).find('strong').html(Math.round(90 * progress) + '<i>%</i>');
-  });
-
-
-
 
     $('.mesonry-grid').masonry({
           // options

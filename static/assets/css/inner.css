@@ -9,7 +9,7 @@ INNER PAGES CSS----->
 
 
 .welcome-area.inner {
-    padding: 150px 0 200px 0;
+    padding: 150px 0 1rem 0;
 }
 
 .inner-wlc h2 {
@@ -339,7 +339,7 @@ span.single-blog-section-img-tag {
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    color: #0b0d0e;
+    color: #fff;
     text-transform: uppercase;
     font-family: 'Oswald', sans-serif;
 }
@@ -357,7 +357,7 @@ span.single-blog-section-img-tag {
 }
 
 .portfolio-description h3{
-    color: #0b0d0e;
+    color: #fff;
     font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
@@ -376,7 +376,7 @@ span.single-blog-section-img-tag {
 
 .single-portfolio-item {
     -webkit-box-shadow: 3px 4px 13px #f2f2f2; 
-    box-shadow: 3px 4px 13px #f2f2f2;
+    box-shadow: 3px 4px 13px #009688;
 
 }
 .single-portfolio-item:hover .portfolio-hover{
@@ -471,22 +471,24 @@ height: 350px;
 .comment_form h3 {
     font-size: 24px;
     text-transform: uppercase;
-    color: #0b0d0e;
+    color: #fff;
 }
 
 .single-portfolio-description p {
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 400;
-    color: #0b0d0e;
+    color: #fff;
 }
 
 .ctable th {
     font-weight: 500;
+    color: #fff;
 }
 
 .ctable td {
     font-weight: 400;
+    color: #fff;
 }
 .post_prev_next a, 
 .post_prev_next h5{
@@ -564,9 +566,7 @@ height: 350px;
     line-height: 1.6;
     margin-bottom: 30px;
 }
-div#home {
-    padding-top: 90px;
-}
+
 
 .inner-bg-shpes {
     position: relative;
@@ -769,13 +769,13 @@ img.memphis.memphis7 {
 .contact__card h4 {
     font-size: 24px;
     text-transform: uppercase;
-    color: #32383A;
+    color: #fff;
     margin: 20px 0;
 }
 
 
 .contact__card__icon i {
-    color: #32383A;
+    color: #fff;
     font-size: 36px;
 }
 
@@ -796,6 +796,7 @@ img.memphis.memphis7 {
     transform: translateY(0);
     transition: all .3s;
     padding: 40px 30px;
+    background: #3f3636;
 }
 
 .contact__card:hover {
