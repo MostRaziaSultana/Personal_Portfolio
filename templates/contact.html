@@ -24,8 +24,8 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="inner-wlc">
-                                    <h2>Contact Us</h2>
-                                    <h3><a href="/">home</a>&nbsp;/&nbsp;Contact Us</h3>
+                                    <h2>Contact Me</h2>
+                                    <h3><a href="/">home</a>&nbsp;/&nbsp;Contact Me</h3>
                                 </div>
                             </div>
                             <div class="col-lg-4 text-center">
@@ -83,11 +83,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-100"></div>
+                <div class="space-100" id="hire"></div>
                 <div class="row">
                     <div class="col-lg-6 align-self-center">
                         <div class="map mr-lg-4">
-                            <img src="{{ url_for('static', filename='uploads/images/'+contact.image) }}" alt="">
+                            {% if contact %}
+                            <img src="{{ url_for('static', filename='uploads/images/'+contact.image) }}" alt="Location image">
+                            {% else %}
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-lg-6 align-self-center">

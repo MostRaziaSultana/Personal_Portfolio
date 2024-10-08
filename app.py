@@ -1,9 +1,15 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_migrate import Migrate
+from datetime import datetime
+from sqlalchemy import Date
+from flask_admin import Admin, AdminIndexView, expose
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 from flask_wtf import FlaskForm
 from flask_uploads import UploadSet, configure_uploads, IMAGES
@@ -16,8 +22,9 @@ from flask import send_from_directory
 app = Flask(__name__)
 
 
-basedir = os.path.abspath(os.path.dirname(__file__)) 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'site.db')}"
+basedir = os.path.abspath(os.path.dirname(__file__))
+#app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'site.db')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/portfolio_database'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -36,6 +43,87 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Example User class for demonstration
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)  # Store hashed passwords
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+# Dummy user for example
+# users = {'admin': User('admin')}
+
+def create_user(username, password):
+    hashed_password = generate_password_hash(password, method='scrypt')
+    new_user = User(username=username, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return User.query.get(int(user_id))
+    except ValueError:
+        return None
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('admin_login'))
+
+# Login route
+@app.route('/login', methods=['GET', 'POST'], endpoint='admin_login')
+def login():
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin.index'))
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        print(password)
+
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('admin.index'))
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        print(password)
+        if User.query.filter_by(username=username).first() is None:
+            create_user(username, password)
+            return redirect(url_for('admin_login'))
+    return render_template('register.html')
+
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    print('user:',current_user)
+    if current_user.is_authenticated:
+        print("Logging out user:", current_user.username)
+        logout_user()
+        print("User logged out successfully.")
+    else:
+        print("User was not authenticated.")
+    return redirect(url_for('admin_login'))
+
+class AuthenticatedAdminIndexView(AdminIndexView):
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))
+
 class ImageUploadForm(FlaskForm):
     description = StringField('Logo description', validators=[DataRequired()])
     image = FileField('Image', validators=[DataRequired()])
@@ -53,6 +141,12 @@ class Logo(db.Model):
 class ImageModelView(ModelView):
     form = ImageUploadForm
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
+
     def on_model_change(self, form, model, is_created):
         if form.image.data:
             filename = images.save(form.image.data)
@@ -65,13 +159,13 @@ class ImageModelView(ModelView):
 
 class SideWidgetContent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=True, default='not set') 
+    content = db.Column(db.Text, nullable=True, default='not set')
 
 
 class SocialMedia(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    platform = db.Column(db.String(50), nullable=True, default='not set') 
-    url = db.Column(db.String(200), nullable=True, default='not set') 
+    platform = db.Column(db.String(50), nullable=True, default='not set')
+    url = db.Column(db.String(200), nullable=True, default='not set')
     icon_class = db.Column(db.String(50), nullable=True, default='not set')
 
 
@@ -82,7 +176,7 @@ class AboutMeUploadForm(FlaskForm):
 
 class AboutMe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=True, default='not set')  
+    name = db.Column(db.String(50), nullable=True, default='not set')
     designation =  db.Column(db.String(100), nullable=True, default='not set')
     image_url = db.Column(db.String(255), nullable=True, default='not set')
 
@@ -158,6 +252,13 @@ class Service(db.Model):
 
 class ServiceModelView(ModelView):
     form = ServiceUploadForm
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
+
     def on_model_change(self, form, model, is_created):
         if form.image.data:
             filename = images.save(form.image.data)
@@ -174,12 +275,18 @@ class ProjectUploadForm(FlaskForm):
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    image_url = db.Column(db.String(255), nullable=False, default='http://example.com/default-project-image.png') 
+    image_url = db.Column(db.String(255), nullable=False, default='http://example.com/default-project-image.png')
     title = db.Column(db.String(100), nullable=False, default='Untitled Project')
     link = db.Column(db.String(255), nullable=False, default='http://example.com/default-link')
 
 class ProjectModelView(ModelView):
     form = ProjectUploadForm
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
 
     def on_model_change(self, form, model, is_created):
         if form.image.data:
@@ -189,7 +296,7 @@ class ProjectModelView(ModelView):
 
 class CounterFact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    icon_class = db.Column(db.String(50), nullable=False, default='fa-icon-default')  
+    icon_class = db.Column(db.String(50), nullable=False, default='fa-icon-default')
     value = db.Column(db.String(20), nullable=False, default='0')
     description = db.Column(db.String(100), nullable=False,default='Default description')
 
@@ -206,6 +313,12 @@ class Brand(db.Model):
 class BrandModelView(ModelView):
     form = BrandLogoUploadForm
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
+
     def on_model_change(self, form, model, is_created):
         if form.image.data:
             filename = images.save(form.image.data)
@@ -216,7 +329,7 @@ class BrandModelView(ModelView):
 class Copyright(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     year = db.Column(db.String(4), nullable=False, default='2024')
-    author = db.Column(db.String(100), nullable=False, default='Unknown Author') 
+    author = db.Column(db.String(100), nullable=False, default='Unknown Author')
 
 
 # -----------Contact Page------------
@@ -231,7 +344,7 @@ class ContactInfoUploadForm(FlaskForm):
 
 class ContactInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(255), nullable=False, default='123 Main St, Anytown, USA') 
+    address = db.Column(db.String(255), nullable=False, default='123 Main St, Anytown, USA')
     phone1 = db.Column(db.String(15), nullable=False,default='000-000-0000')
     phone2 = db.Column(db.String(15), nullable=True,default=None)
     email1 = db.Column(db.String(100), nullable=False, default='example@example.com')
@@ -240,6 +353,12 @@ class ContactInfo(db.Model):
 
 class ContactInfoModelView(ModelView):
     form = ContactInfoUploadForm
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
 
     def on_model_change(self, form, model, is_created):
         if form.image.data:
@@ -277,7 +396,7 @@ class PortfolioItemUploadForm(FlaskForm):
 class PortfolioItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False, default='Untitled Portfolio Item')
-    date = db.Column(db.String(50), nullable=False, default='2024-01-01')
+    date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     image1_url = db.Column(db.String(200), nullable=False, default='http://example.com/default-image.jpg')
     image2_url = db.Column(db.String(200), nullable=False, default='http://example.com/default-image.jpg')
     image3_url = db.Column(db.String(200), nullable=False, default='http://example.com/default-image.jpg')
@@ -291,6 +410,13 @@ class PortfolioItem(db.Model):
 
 class PortfolioItemModelView(ModelView):
     form = PortfolioItemUploadForm
+
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))  # Redirect to login page
 
     def create_form(self, obj=None):
         form = super(PortfolioItemModelView, self).create_form(obj)
@@ -316,8 +442,6 @@ class PortfolioItemModelView(ModelView):
         if form.image4.data:
             filename4 = images.save(form.image4.data)
             model.image4_url = filename4
-
-
 
 
 def create_tables():
@@ -624,14 +748,6 @@ def home():
     )
 
 
-# @app.route('/contactpage')
-# def contact():
-#     contact_info = ContactInfo.query.first()
-#     return render_template('contact.html',contact=contact_info)
-
-
-from flask import Flask, render_template, request, redirect, flash
-
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///messages.db'
@@ -651,7 +767,7 @@ def contact():
         db.session.add(new_message)
         db.session.commit()
 
-        flash('Your message has been sent successfully!', 'success')
+        # flash('Your message has been sent successfully!', 'success')
         return redirect('/contact')
 
     return render_template('contact.html', contact=contact_info)
@@ -673,29 +789,36 @@ def single_portfolio(id):
 def download_cv(filename):
     return send_from_directory(app.config['UPLOADED_CVS_DEST'], filename, as_attachment=True)
 
+class AuthenticatedModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('admin_login'))
+
 
 
 # Flask Admin setup
-admin = Admin(app, name="Shoily's Panel", template_mode='bootstrap3')
+admin = Admin(app, name="Shoily's Panel", template_mode='bootstrap3', index_view=AuthenticatedAdminIndexView())
 
 admin.add_view(ImageModelView(Logo, db.session))
-admin.add_view(ModelView(SideWidgetContent, db.session))
-admin.add_view(ModelView(SocialMedia, db.session))
+admin.add_view(AuthenticatedModelView(SideWidgetContent, db.session))
+admin.add_view(AuthenticatedModelView(SocialMedia, db.session))
 admin.add_view(AboutMeModelView(AboutMe, db.session))
 admin.add_view(AboutContentModelView(AboutContent, db.session))
-admin.add_view(ModelView(CareerInfo, db.session))
-admin.add_view(ModelView(Experience, db.session))
-admin.add_view(ModelView(Skill, db.session))
-admin.add_view(ModelView(ServiceHeader, db.session))
+admin.add_view(AuthenticatedModelView(CareerInfo, db.session))
+admin.add_view(AuthenticatedModelView(Experience, db.session))
+admin.add_view(AuthenticatedModelView(Skill, db.session))
+admin.add_view(AuthenticatedModelView(ServiceHeader, db.session))
 admin.add_view(ServiceModelView(Service, db.session))
-admin.add_view(ModelView(ProjectHeader, db.session))
+admin.add_view(AuthenticatedModelView(ProjectHeader, db.session))
 admin.add_view(ProjectModelView(Project, db.session))
-admin.add_view(ModelView(CounterFact, db.session))
+admin.add_view(AuthenticatedModelView(CounterFact, db.session))
 admin.add_view(BrandModelView(Brand, db.session))
-admin.add_view(ModelView(Copyright, db.session))
+admin.add_view(AuthenticatedModelView(Copyright, db.session))
 admin.add_view(ContactInfoModelView(ContactInfo, db.session))
-admin.add_view(ModelView(UserMessage, db.session))
-admin.add_view(ModelView(PortfolioCategory, db.session))
+admin.add_view(AuthenticatedModelView(UserMessage, db.session))
+admin.add_view(AuthenticatedModelView(PortfolioCategory, db.session))
 admin.add_view(PortfolioItemModelView(PortfolioItem, db.session))
 
 
@@ -704,5 +827,5 @@ admin.add_view(PortfolioItemModelView(PortfolioItem, db.session))
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all() 
+        db.create_all()
     app.run(debug=True)

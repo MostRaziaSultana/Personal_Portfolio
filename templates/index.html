@@ -8,7 +8,10 @@
     <!--::::: support meta :::::::-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if logo %}
     <link rel="icon" href="{{ url_for('static', filename='uploads/images/'+logo.favicon_image) }}" type="image/x-icon">
+    {% else %}
+    {% endif %}
     <!--::::: ALL CSS CALLING :::::::-->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/animate.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/plugins/bootstrap.min.css') }}">
@@ -78,43 +81,38 @@
             <div class="container">
                 <div class="row">
                     <div class="col-6 col-lg-3 align-self-center">
-
+                        {% if logo %}
                         <a href="/" class="logo"><img src="{{ url_for('static', filename='uploads/images/'+logo.image) }}" alt="Brand Logo"></a>
+                        {% else %}
+                        {% endif %}
                     </div>
 
                     <div class="col-6 text-center align-self-center">
                         <div class="main-menu">
                             <div class="stellarnav">
                                 <ul class="navbarmneuclass">
-                                    <li class="current"><a href="#">Home</a>
+                                    <li><a href="/">Home</a>
                                     </li>
                                     <li><a href="#about">About</a></li>
                                     <li><a href="#service">Service</a></li>
                                     <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul>
-                                             <li><a href="#about">About</a></li>
-                                            <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
+                                     <li><a href="#portfolio">Experience</a></li>
+<!--                                    <li><a href="#">Pages</a>-->
+<!--                                        <ul>-->
+<!--                                             <li><a href="#about">About</a></li>-->
+<!--                                            <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>-->
 
-<!--                                            <li><a href="blog.html">Blog</a></li>-->
-<!--                                            <li><a href="single-blog.html">Single Blog</a></li>-->
-                                            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
-                                        </ul>
-                                    </li>
+<!--&lt;!&ndash;                                            <li><a href="blog.html">Blog</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <li><a href="single-blog.html">Single Blog</a></li>&ndash;&gt;-->
+<!--                                            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>-->
+<!--                                        </ul>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="d-none d-lg-block col-lg-3 align-self-center text-right">
                         <div class="search-area">
-                            <div class="search-box">
-                                <form action="#" method="get">
-                                    <input type="search" placeholder="Search">
-                                </form>
-                                <div class="search-btn">
-                                    <a href="#"><i class="fas fa-search"></i></a>
-                                </div>
-                            </div>
                             <div class="grid-menu" id="grid-side">
                                 <img src="{{ url_for('static', filename='assets/img/icon/hamburger.svg') }}" alt="">
                             </div>
@@ -128,7 +126,10 @@
                     <i class="fal fa-times"></i>
                 </div>
                     <div class="logo">
+                        {% if logo %}
                         <a href="/"><img src="{{ url_for('static', filename='uploads/images/'+logo.image) }}" alt="Brand Logo"></a>
+                        {% else %}
+                        {% endif %}
                     </div>
                     <div class="side-content">
                         <p>{{ logo.description }}</p>
@@ -160,13 +161,15 @@
                                     </h1>
                                     <p class="fadeInDown animated">{{ about_me.designation }}</p>
 
-                                    <a href="#" class="cbtn cbnt1 fadeInDown animated">Getting Started <i class="fal fa-angle-right"></i></a>
+                                    <a href="{{ url_for('contact') }}#hire" class="cbtn cbnt1 fadeInDown animated"> Hire Me<i class="fal fa-angle-right"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="wlc-author-1">
+                        {% if about_me %}
                         <img src="{{ url_for('static', filename='uploads/images/'+about_me.image_url) }}" alt="My image">
+                        {% endif %}
                         <h1 class="wlc-filltext">gilroy</h1>
                     </div>
                 </div>
@@ -182,7 +185,10 @@
                 <div class="row">
                     <div class="col-lg-5 align-self-center">
                         <div class="about-shape">
+                            {% if about_content %}
                               <img src="{{ url_for('static', filename='uploads/images/'+about_content.image_url) }}" alt="{{ about_me.name }}">
+                            {% else %}
+                            {% endif %}
 <!--                            <div class="about-img-section about-img-section1 text-center">-->
 <!--                                <a id="play-video" class="video-play-button" href="#"><span></span></a>-->
 <!--                                <div id="video-overlay" class="video-overlay">-->
@@ -399,11 +405,11 @@
                     <div class="col-lg-6 m-auto text-center">
                         <div class="footer-menu">
                             <ul>
-                                <li><a href="#">about me</a></li>
-                                <li><a href="#">career</a></li>
+                                <li><a href="#about">about me</a></li>
+                                <li><a href="#portfolio">career</a></li>
 <!--                                <li><a href="#">blog</a></li>-->
-                                <li><a href="#">gallery</a></li>
-                                <li><a href="{{ url_for('contact') }}">contact me</a></li>
+<!--                                <li><a href="#">gallery</a></li>-->
+                                <li><a href="{{ url_for('contact') }}#hire">contact me</a></li>
                             </ul>
                         </div>
                         <div class="space-40"></div>
