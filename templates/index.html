@@ -93,10 +93,10 @@
                                 <ul class="navbarmneuclass">
                                     <li><a href="/">Home</a>
                                     </li>
-                                    <li><a href="#about">About</a></li>
-                                    <li><a href="#service">Service</a></li>
+                                    <li><a href="{{ url_for('home') }}#about">About</a></li>
+                                    <li><a href="{{ url_for('home') }}#service">Service</a></li>
                                     <li><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
-                                     <li><a href="#portfolio">Experience</a></li>
+                                     <li><a href="{{ url_for('home') }}#portfolio">Experience</a></li>
 <!--                                    <li><a href="#">Pages</a>-->
 <!--                                        <ul>-->
 <!--                                             <li><a href="#about">About</a></li>-->
@@ -405,8 +405,8 @@
                     <div class="col-lg-6 m-auto text-center">
                         <div class="footer-menu">
                             <ul>
-                                <li><a href="#about">about me</a></li>
-                                <li><a href="#portfolio">career</a></li>
+                                <li><a href="{{ url_for('home') }}#about">about me</a></li>
+                                <li><a href="{{ url_for('home') }}#portfolio">career</a></li>
 <!--                                <li><a href="#">blog</a></li>-->
 <!--                                <li><a href="#">gallery</a></li>-->
                                 <li><a href="{{ url_for('contact') }}#hire">contact me</a></li>
